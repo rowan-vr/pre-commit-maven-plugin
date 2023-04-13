@@ -14,7 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 
-@Mojo(name = "install", requiresProject = false)
+@Mojo(name = "install")
 public class InstallMojo extends AbstractMojo {
 
     /**
@@ -96,7 +96,7 @@ public class InstallMojo extends AbstractMojo {
         }
 
         getLog().info("Installing pre-commit hooks...");
-        PreCommit preCommit = new PreCommit(pythonPath, version, preCommitPath);
+        PreCommit preCommit = new PreCommit(pythonPath, version, preCommitPath, getLog());
         try {
             preCommit.install();
         } catch (Exception e) {
