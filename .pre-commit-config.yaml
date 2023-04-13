@@ -8,5 +8,4 @@ repos:
       rev: v0.3.3
       hooks:
         -   id: maven-compile
-        -   id: maven
-            args: ['spotless:apply']
+        -   id: maven-spotless-apply
