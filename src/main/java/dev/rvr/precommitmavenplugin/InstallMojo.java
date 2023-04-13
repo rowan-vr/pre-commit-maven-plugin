@@ -23,9 +23,15 @@ public class InstallMojo extends AbstractMojo {
     @Parameter(defaultValue = "${project}", required = true, readonly = true)
     private MavenProject project;
 
+    /**
+     * The version of pre-commit to install
+     */
     @Parameter(property = "version", required = false)
     private String version;
 
+    /**
+     * The path to the pre-commit cache directory
+     */
     @Parameter(defaultValue = ".pre-commit-cache", property = "pre-commit-cache-path", required = false)
     private String preCommitCachePath;
 

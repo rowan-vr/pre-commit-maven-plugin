@@ -25,10 +25,21 @@ public class DownloadUtil {
     private static final Pattern VERSION_PATTERN = Pattern.compile("^\\d+\\.\\d+\\.\\d+$");
     private static final Pattern FILE_PATTERN = Pattern.compile("^pre-commit-(\\d+\\.\\d+\\.\\d+)\\.pyz$");
 
+    /**
+     * Get the file name of the pre-commit executable
+     * @param version the version of the pre-commit executable
+     * @return the file name of the pre-commit executable
+     */
     public static String getPrecommitFileName(String version) {
         return "pre-commit-" + version + ".pyz";
     }
 
+    /**
+     * Download a specific version of pre-commit and save it to the given folder
+     * @param version the version of pre-commit to download
+     * @param folder the folder to save the pre-commit executable to
+     * @throws DownloadException if the download fails
+     */
     public static void downloadPreCommit(String version, Path folder) throws DownloadException {
         Validate.isTrue(VERSION_PATTERN.matcher(version).matches(), "Invalid version: " + version);
 
@@ -44,6 +55,13 @@ public class DownloadUtil {
         }
     }
 
+    /**
+     * Validate the hash of the pre-commit executable
+     * @param version the version of the pre-commit executable
+     * @param folder the folder where the pre-commit executable is located
+     * @return true if the hash is valid, false otherwise
+     * @throws DownloadException if the download of the hash fails
+     */
     public static boolean validateHash(String version, Path folder) throws DownloadException {
         Validate.isTrue(VERSION_PATTERN.matcher(version).matches(), "Invalid version: " + version);
         try {
@@ -56,6 +74,13 @@ public class DownloadUtil {
         }
     }
 
+    /**
+     * Check whether a specific version of pre-commit is already downloaded
+     * @param version the version of pre-commit to check
+     * @param folder the folder where the pre-commit executable is located
+     * @return true if the pre-commit executable is already downloaded, false otherwise
+     * @throws DownloadException if the download of the hash fails
+     */
     public static boolean isDownloaded(String version, Path folder) throws DownloadException {
         Validate.isTrue(VERSION_PATTERN.matcher(version).matches(), "Invalid version: " + version);
         File file = folder.resolve(getPrecommitFileName(version)).toFile();
@@ -63,12 +88,22 @@ public class DownloadUtil {
         return file.exists() && validateHash(version, folder);
     }
 
+    /**
+     * Get the latest version of pre-commit
+     * @return the latest version of pre-commit
+     * @throws IOException if the github api request fails
+     */
     public static String getLatestVersion() throws IOException {
         String json = IOUtils.toString(new URL("https://api.github.com/repos/pre-commit/pre-commit/releases/latest"), StandardCharsets.UTF_8);
         JsonObject obj = JsonParser.parseString(json).getAsJsonObject();
         return obj.get("tag_name").getAsString().substring(1);
     }
 
+    /**
+     * Get the installed version of pre-commit
+     * @param folder the folder where the pre-commit executable is located
+     * @return the installed version of pre-commit or null if no version is installed
+     */
     public static String getInstalledVersion(Path folder){
         if (!folder.toFile().exists() || !folder.toFile().isDirectory())
             return null;
@@ -82,6 +117,12 @@ public class DownloadUtil {
         return null;
     }
 
+    /**
+     * Get the download url for a specific version
+     * @param url the url template
+     * @param version the version
+     * @return the download url
+     */
     private static URL getDownloadUrl(String url, String version) {
         Validate.isTrue(VERSION_PATTERN.matcher(version).matches(), "Invalid version: " + version);
         try {

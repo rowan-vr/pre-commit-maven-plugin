@@ -5,6 +5,9 @@ import org.apache.maven.plugin.logging.Log;
 import java.io.*;
 import java.nio.file.Path;
 
+/**
+ * Pre-commit class which handles the pre-commit installation and execution
+ */
 public class PreCommit {
     private final String pythonPath;
     private final String fileName;
@@ -30,6 +33,10 @@ public class PreCommit {
         this.log = log;
     }
 
+    /**
+     * Installs the pre-commit hooks by running the pre-commit install command
+     * @throws PreCommitException if the pre-commit install command fails
+     */
     public void install() throws PreCommitException {
         try {
             this.run("install");
@@ -38,6 +45,11 @@ public class PreCommit {
         }
     }
 
+    /**
+     * Runs the pre-commit with the given arguments
+     * @param arguments the arguments to pass to the pre-commit command
+     * @throws PreCommitException if the the exit code of the pre-commit command is not 0
+     */
     public void run(String arguments) throws PreCommitException {
         try {
             Process process = Runtime.getRuntime().exec(pythonPath + " " + fileName + " " + arguments, null, cacheDir);
