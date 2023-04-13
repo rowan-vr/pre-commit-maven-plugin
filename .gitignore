@@ -36,3 +36,9 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+### Pre commit cache ###
+.pre-commit-cache/
+
+### Idea ###
+.idea/
