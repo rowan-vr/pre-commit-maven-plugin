@@ -5,10 +5,8 @@ import com.google.common.io.ByteSource;
 import com.google.common.io.Files;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import org.apache.commons.io.Charsets;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.Validate;
-import org.codehaus.plexus.util.IOUtil;
 
 import java.io.BufferedInputStream;
 import java.io.File;
